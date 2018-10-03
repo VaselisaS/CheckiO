@@ -1,3 +1,4 @@
+// @flow
 /* Do you remember the radix and Numeral systems from math class? Let's practice with it.
 
 You are given a positive number as a string along with the radix for it.
@@ -21,9 +22,16 @@ re.match("\A[A-Z0-9]\Z", str_number)
 0 < len(str_number) ≤ 10
 2 ≤ radix ≤ 36
 */
+const assert = require('assert');
 
-const numberRadix = (strNumber, radix) => {
-  return strNumber + radix;
-};
+function numberRadix(strNumber, radix) {
+  const n = parseInt(strNumber, radix) || -1;
+  return n.toString(radix).toLowerCase() === strNumber.toLowerCase() ? n : -1;
+}
 
-numberRadix('32', '51');
+
+assert.equal(numberRadix('AF', 16), 175, 'Hex');
+assert.equal(numberRadix('101', 2), 5, 'Bin');
+assert.equal(numberRadix('101', 5), 26, '5 base');
+assert.equal(numberRadix('Z', 36), 35, 'Z base');
+assert.equal(numberRadix('AB', 10), -1, 'B > A > 10');
